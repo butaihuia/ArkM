@@ -16,9 +16,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel, QLineEdit,
-    QListWidget, QListWidgetItem, QMainWindow, QMenuBar,
-    QPushButton, QSizePolicy, QSlider, QStatusBar,
-    QTextBrowser, QVBoxLayout, QWidget)
+                               QListWidget, QListWidgetItem, QMainWindow, QMenuBar,
+                               QPushButton, QSizePolicy, QSlider, QStatusBar,
+                               QTextBrowser, QVBoxLayout, QWidget, QGraphicsDropShadowEffect)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -223,6 +223,17 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         QMetaObject.connectSlotsByName(MainWindow)
+
+        # 添加阴影
+        self.shadow = QGraphicsDropShadowEffect(self.centralwidget)
+        self.shadow.setBlurRadius(15)
+        self.shadow.setXOffset(0)
+        self.shadow.setYOffset(0)
+        self.shadow.setColor(QColor(0, 0, 0, 120))
+        self.centralwidget.setGraphicsEffect(self.shadow)
+
+        MainWindow.setWindowOpacity(0.90)
+
     # setupUi
 
     def retranslateUi(self, MainWindow):

@@ -3,91 +3,176 @@
 简约黑灰白色调样式表 - 明日方舟PRTS系统主题
 """
 
-START_STYLESHEET="""
-/* styles.qss */
+START_STYLESHEET = """
+/* 主窗口样式 */
 QMainWindow {
-    background-color: #2b2b2b;
-
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                               stop:0 #1a1a1a, stop:0.5 #2a2a2a, stop:1 #1a1a1a);
+    color: #e0e0e0;
 }
-/*
+
+/* 中央部件样式 */
+QWidget#centralwidget {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                                           stop:0 rgba(26, 26, 26, 230), 
+                                           stop:0.5 rgba(42, 42, 42, 230), 
+                                           stop:1 rgba(26, 26, 26, 230));
+    border-radius: 12px;
+}
+
+/* 垂直布局样式 */
+QVBoxLayout {
+    spacing: 10px;
+    margin: 10px;
+}
+
+/* 水平布局样式 */
+QHBoxLayout {
+    spacing: 8px;
+    margin: 5px;
+}
+
+/* 标题标签样式 - 与主窗口颜色相同 */
 QLabel#titleLable {
-    background-color: rgba(43, 43, 43, 150);
-    color: white;
-    font-weight: bold;
+    color: #ffffff;
+    font-family: "Microsoft YaHei UI", "Segoe UI";
     font-size: 14px;
-    padding: 10px;
-    border-radius: 5px;
+    font-weight: bold;
+    background: transparent;
     border: none;
-    
-    background-image: url(111.jpg);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size:contain ;
-}
-*/
-
-QLabel#titleLable {
-    color: white;
-    font-weight: bold;
-    font-size: 14px;
-    background-color: #2b2b2b;
-    padding: 10px;
-    border-radius: 5px;
-    
-
+    padding: 12px 20px;
+    margin: 5px;
 }
 
+/* 普通标签样式 - 与主窗口颜色相同 */
 QLabel#label {
-    color: white;
+    color: #e0e0e0;
+    font-family: "Microsoft YaHei UI", "Segoe UI";
+    font-size: 12px;
     font-weight: bold;
-    background-color: #2b2b2b;
-    padding: 5px;
-    border-radius: 3px;
+    background: transparent;
+    border: none;
+    padding: 8px 3px;
+    min-width: 20px;
 }
 
-QPushButton#okButton {
-    color: white;
-    font-weight: bold;
-    background-color: #3d3d3d;
-    border: 1px solid #555555;
-    padding: 8px 15px;
-    border-radius: 5px;
-}
-
-QPushButton#okButton:hover {
-    background-color: #4d4d4d;
-}
-
-QPushButton#okButton:pressed {
-    background-color: #2d2d2d;
-}
-
+/* 输入框样式 */
 QLineEdit#InputEdit {
-    background-color: #3d3d3d;
-    color: white;
+    background: rgba(30, 30, 30, 0.9);
     border: 1px solid #555555;
-    padding: 5px;
-    border-radius: 3px;
+    border-radius: 6px;
+    color: #e0e0e0;
+    font-family: "Consolas", "Microsoft YaHei UI";
+    font-size: 11px;
+    font-weight: bold;
+    padding: 8px 12px;
+    selection-background-color: #606060;
 }
 
 QLineEdit#InputEdit:focus {
-    border: 1px solid #0078d4;
+    border: 1px solid #888888;
+    background: rgba(35, 35, 35, 0.9);
 }
 
-QStatusBar {
-    background-color: #2b2b2b;
+QLineEdit#InputEdit::placeholder {
     color: #888888;
+    font-style: italic;
 }
 
+/* 确认按钮样式 - 灰色 */
+QPushButton#okButton {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                               stop:0 #505050, stop:0.5 #404040, stop:1 #505050);
+    border: 1px solid #666666;
+    border-radius: 6px;
+    color: #e0e0e0;
+    font-family: "Microsoft YaHei UI", "Segoe UI";
+    font-size: 11px;
+    font-weight: bold;
+    padding: 8px 16px;
+    min-width: 70px;
+}
+
+QPushButton#okButton:hover {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                               stop:0 #606060, stop:0.5 #505050, stop:1 #606060);
+    border: 1px solid #888888;
+    color: #ffffff;
+}
+
+QPushButton#okButton:pressed {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                               stop:0 #404040, stop:0.5 #303030, stop:1 #404040);
+    border: 1px solid #444444;
+}
+
+/* 取消按钮样式 - 灰色 */
+QPushButton#noButton {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                               stop:0 #505050, stop:0.5 #404040, stop:1 #505050);
+    border: 1px solid #666666;
+    border-radius: 6px;
+    color: #e0e0e0;
+    font-family: "Microsoft YaHei UI", "Segoe UI";
+    font-size: 11px;
+    font-weight: bold;
+    padding: 8px 16px;
+    min-width: 70px;
+}
+
+QPushButton#noButton:hover {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                               stop:0 #606060, stop:0.5 #505050, stop:1 #606060);
+    border: 1px solid #888888;
+    color: #ffffff;
+}
+
+QPushButton#noButton:pressed {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                               stop:0 #404040, stop:0.5 #303030, stop:1 #404040);
+    border: 1px solid #444444;
+}
+
+/* 菜单栏样式 */
 QMenuBar {
-    background-color: #2b2b2b;
-    color: white;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                               stop:0 #404040, stop:1 #303030);
+    border-bottom: 1px solid #555555;
+    color: #e0e0e0;
+    font-family: "Microsoft YaHei UI", "Segoe UI";
+    font-size: 10px;
+}
+
+QMenuBar::item {
+    background: transparent;
+    padding: 4px 8px;
 }
 
 QMenuBar::item:selected {
-    background-color: #3d3d3d;
+    background: rgba(60, 60, 60, 0.8);
+    border-radius: 3px;
+}
+
+/* 状态栏样式 */
+QStatusBar {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                               stop:0 #303030, stop:1 #202020);
+    color: #888888;
+    font-family: "Microsoft YaHei UI", "Segoe UI";
+    font-size: 9px;
+    border-top: 1px solid #555555;
+}
+
+/* 间隔项样式 */
+QSpacerItem {
+    /* 间隔项通常不需要特殊样式 */
 }
 """
+
+
+
+
+
 
 
 ARK_STYLESHEET = """

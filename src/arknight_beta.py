@@ -319,7 +319,7 @@ def download_engine_init():
     logger.info("加载中...")
 
     # 必需开辟的目录
-    directories = ["../temp/", "../songs/", "../Persistence/"]
+    directories = [ "../songs/", "../Persistence/"]
     for directory in directories:
         os.makedirs(directory, exist_ok=True)
 

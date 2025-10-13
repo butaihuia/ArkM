@@ -6,12 +6,14 @@ from PySide6.QtCore import  QTimer, QUrl, QTime, QThread, Signal
 from PySide6.QtGui import QKeySequence, QShortcut,  QIcon
 from PySide6.QtMultimedia import QMediaPlayer, QAudioOutput
 from ArkM import Ui_MainWindow
-from Start import Start_MainWindow
+from Start import Ui_StartWindow
 
 import arknight_beta
 
 from ark_style import ARK_STYLESHEET, START_STYLESHEET
 from enhanced_logger import EnhancedLogger
+
+Dr_name=""
 
 
 class DownloadThread(QThread):
@@ -104,7 +106,7 @@ class ArkMusic(QMainWindow, Ui_MainWindow):
         self.setup_shortcuts()
 
         # 设置窗口属性
-        self.setWindowTitle("PRTS音乐系统 - 音乐终端")
+        self.setWindowTitle(f"ArkM音乐系统 - 音乐终端 - 欢迎,Dr.{Dr_name}")
         self.setMinimumSize(1000, 700)
 
         # 设置窗口居中显示
@@ -120,8 +122,9 @@ class ArkMusic(QMainWindow, Ui_MainWindow):
 
         # 初始化播放控制
         self.init_media_controls()
-
-        self.logger.log("PRTS音乐系统初始化完成", "SUCCESS")
+        self.logger.clear()
+        self.logger.log("ArkM音乐系统初始化完成", "SUCCESS")
+        self.logger.log(f"您好,Dr.{Dr_name}", "SUCCESS")
         self.logger.log("欢迎使用终端音乐管理系统", "INFO")
 
     def center_window(self):
@@ -164,23 +167,23 @@ class ArkMusic(QMainWindow, Ui_MainWindow):
 
     def setup_shortcuts(self):
         """设置快捷键"""
-        # 下载列表快捷键"Ctrl+F"
+        # 下载列表快捷键
         download_search_shortcut = QShortcut(QKeySequence("Ctrl+F"), self)
         download_search_shortcut.activated.connect(self.downloadSearchInput.setFocus)
 
-        # 音乐列表快捷键"Ctrl+G"
+        # 音乐列表快捷键
         music_search_shortcut = QShortcut(QKeySequence("Ctrl+G"), self)
         music_search_shortcut.activated.connect(self.musicSearchInput.setFocus)
 
-        # 下载快捷键"Ctrl+D"
+        # 下载快捷键
         download_shortcut = QShortcut(QKeySequence("Ctrl+D"), self)
         download_shortcut.activated.connect(self.download_button_clicked)
 
-        # 删除快捷键"Ctrl+Delete"
+        # 删除快捷键
         delete_shortcut = QShortcut(QKeySequence("Ctrl+Delete"), self)
         delete_shortcut.activated.connect(self.delete_button_clicked)
 
-        # 清空日志快捷键"Ctrl+L"
+        # 清空日志快捷键
         clear_log_shortcut = QShortcut(QKeySequence("Ctrl+L"), self)
         clear_log_shortcut.activated.connect(self.clear_log)
 
@@ -288,8 +291,8 @@ class ArkMusic(QMainWindow, Ui_MainWindow):
         music_name = item.text()
         self.logger.log(f"准备下载: {music_name}", "INFO")
 
-        reply = QMessageBox.question(self, "确认下载",
-                                     f"确定要下载《{music_name}》吗？",
+        reply = QMessageBox.question(self, "ArkM",
+                                     f"Dr.{Dr_name},您确定要下载《{music_name}》吗？",
                                      QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
                                      QMessageBox.StandardButton.Yes)
 
@@ -321,7 +324,7 @@ class ArkMusic(QMainWindow, Ui_MainWindow):
             self.delete_music(music_name)
         else:
             self.logger.log("请先在已下载列表中选择一首歌曲", "WARNING")
-            QMessageBox.warning(self, "提示", "请先在已下载列表中选择一首歌曲")
+            QMessageBox.warning(self, "ArkM", "请先在已下载列表中选择一首歌曲")
 
     def download_music(self, music_name):
         """下载音乐"""
@@ -353,15 +356,15 @@ class ArkMusic(QMainWindow, Ui_MainWindow):
             self.logger.log(message, "SUCCESS")
             # 刷新数据
             self.init_data()
-            QMessageBox.information(self, "成功", f"下载成功！")
+            QMessageBox.information(self, "ArkM", f"Dr.{Dr_name},下载成功啦！")
         else:
             self.logger.log(message, "ERROR")
             QMessageBox.warning(self, "失败", message)
 
     def delete_music(self, music_name):
         """删除音乐"""
-        reply = QMessageBox.question(self, "确认删除",
-                                     f"确定要删除《{music_name}》吗？此操作不可撤销！",
+        reply = QMessageBox.question(self, "ArkM",
+                                     f"Dr.{Dr_name},您确定要删除《{music_name}》吗？此操作不可撤销！",
                                      QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
                                      QMessageBox.StandardButton.No)
 
@@ -516,50 +519,112 @@ class ArkMusic(QMainWindow, Ui_MainWindow):
     def clear_log(self):
         """清空日志"""
         self.logger.clear()
-        self.logger.log("日志已清空", "INFO")
+        # self.logger.log("日志已清空", "INFO")
 
 
-class StartMusic(QMainWindow, Start_MainWindow):
-    def __init__(self):
+class StartMusic(QMainWindow, Ui_StartWindow):
+    def __init__(self,on_complete_callback):
         super().__init__()
+        self.on_complete_callback = on_complete_callback
         self.setupUi(self)
+
+        self.setWindowTitle("ArkM音乐系统 - 唤醒界面")
 
         # 设置窗口图标
         self.setWindowIcon(QIcon("prts.ico"))
-
         # 应用样式表
         self.apply_scifi_style()
+        self.setup_connection()
 
     def apply_scifi_style(self):
         self.setStyleSheet(START_STYLESHEET)
 
+    def setup_connection(self):
+        self.okButton.clicked.connect(self.ok_button_clicked)
+        self.noButton.clicked.connect(self.no_button_clicked)
+
+    def ok_button_clicked(self):
+        global Dr_name
+        Dr_name=self.InputEdit.text().strip()
+        print(Dr_name)
+        filename = "../name/name.txt"
+        with open(filename, 'w', encoding='utf-8') as f:
+            f.write(Dr_name)
+        self.on_complete_callback("Yes")
+        self.close()
+
+    def no_button_clicked(self):
+        self.on_complete_callback("No")
+        QApplication.quit()
+
+
+
+class ApplicationController:
+    """应用程序控制器"""
+    def __init__(self):
+        # 创建应用
+        self.app = QApplication(sys.argv)
+        self.current_window = None
+        # 设置应用样式
+        self.app.setStyle('Fusion')
+        # 模拟条件判断 - 在实际应用中，这里可以是任何条件检查
+        self.condition_met = self.check_condition()
+
+    def check_condition(self):
+        global Dr_name
+        if Dr_name == "" :
+            return True
+        return False
+
+    def start_application(self):
+        if self.condition_met:
+            #打开Start窗口
+            self.open_Start_window()
+        else:
+            # 打开ArkM窗口
+            self.open_ArkM_window()
+        return self.app.exec()
+
+    def open_Start_window(self):
+        if self.current_window:
+            self.current_window.close()
+
+        self.current_window = StartMusic(self.on_first_window_complete)
+        self.current_window.show()
+
+    def open_ArkM_window(self):
+        if self.current_window:
+            self.current_window.close()
+        self.current_window = ArkMusic()
+        self.current_window.show()
+
+    def on_first_window_complete(self,on_complete_callback):
+        if on_complete_callback=="Yes":
+            self.open_ArkM_window()
+        else:
+            QApplication.quit()
 
 def main():
     """主函数"""
     try:
         # 初始化下载引擎
         arknight_beta.download_engine_init()
+        # 必须开辟的目录
+        global Dr_name
+        os.makedirs('../name/', exist_ok=True)
+        filename = "../name/name.txt"
+        if not os.path.exists(filename):
+            with open(filename, 'w', encoding='utf-8') as f:
+                f.write("")
+        with open(filename, 'r', encoding='utf-8') as file:
+            Dr_name= file.read()
 
-        # 创建应用
-        app = QApplication(sys.argv)
-
-        # 设置应用样式
-        app.setStyle('Fusion')
-
-        # 设置应用属性
-        app.setApplicationName("PRTS音乐系统")
-        app.setApplicationVersion("2.0.0")
-
-        # 创建主窗口
-        window = ArkMusic()
-        window.show()
-
-        # 运行应用
-        sys.exit(app.exec())
+        controller = ApplicationController()
+        sys.exit(controller.start_application())
 
     except Exception as e:
         print(f"系统启动失败: {e}")
-        QMessageBox.critical(None, "启动错误", f"PRTS系统启动失败: {e}")
+        QMessageBox.critical(None, "启动错误", f"ArkM系统启动失败: {e}")
 
 
 
