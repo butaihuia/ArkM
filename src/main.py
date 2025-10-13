@@ -164,23 +164,23 @@ class ArkMusic(QMainWindow, Ui_MainWindow):
 
     def setup_shortcuts(self):
         """设置快捷键"""
-        # 下载列表快捷键
+        # 下载列表快捷键"Ctrl+F"
         download_search_shortcut = QShortcut(QKeySequence("Ctrl+F"), self)
         download_search_shortcut.activated.connect(self.downloadSearchInput.setFocus)
 
-        # 音乐列表快捷键
+        # 音乐列表快捷键"Ctrl+G"
         music_search_shortcut = QShortcut(QKeySequence("Ctrl+G"), self)
         music_search_shortcut.activated.connect(self.musicSearchInput.setFocus)
 
-        # 下载快捷键
+        # 下载快捷键"Ctrl+D"
         download_shortcut = QShortcut(QKeySequence("Ctrl+D"), self)
         download_shortcut.activated.connect(self.download_button_clicked)
 
-        # 删除快捷键
+        # 删除快捷键"Ctrl+Delete"
         delete_shortcut = QShortcut(QKeySequence("Ctrl+Delete"), self)
         delete_shortcut.activated.connect(self.delete_button_clicked)
 
-        # 清空日志快捷键
+        # 清空日志快捷键"Ctrl+L"
         clear_log_shortcut = QShortcut(QKeySequence("Ctrl+L"), self)
         clear_log_shortcut.activated.connect(self.clear_log)
 
