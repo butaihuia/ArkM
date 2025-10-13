@@ -193,7 +193,7 @@ class ArkMusic(QMainWindow, Ui_MainWindow):
         self.player.durationChanged.connect(self.duration_changed)
         self.player.playbackStateChanged.connect(self.playback_state_changed)
 
-        # 连接控制按钮
+        # 连接控制按钮信号
         self.playButton.clicked.connect(self.play_music_from_button)
         self.pauseButton.clicked.connect(self.pause_music)
         self.stopButton.clicked.connect(self.stop_music)
